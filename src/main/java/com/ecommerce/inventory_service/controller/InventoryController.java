@@ -4,6 +4,7 @@ import com.ecommerce.inventory_service.dto.InventoryRequestDTO;
 import com.ecommerce.inventory_service.dto.InventoryResponseDTO;
 import com.ecommerce.inventory_service.dto.StockRequest;
 import com.ecommerce.inventory_service.service.InventoryService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class InventoryController {
     }
 
     @GetMapping
-    public List<InventoryResponseDTO> getAllInventory() {
+    public List<InventoryResponseDTO> getAllInventory(HttpServletRequest req) {
         return inventoryService.getAllInventory();
     }
 
@@ -45,7 +46,6 @@ public class InventoryController {
     @PatchMapping("/stock")
     @ResponseStatus(HttpStatus.OK)
     public String reduceStock(@RequestBody StockRequest stockRequest) {
-        log.info(stockRequest.toString());
         inventoryService.reduceStock(stockRequest.sku(), stockRequest.quantity());
 
         return "Stock actualizado";
